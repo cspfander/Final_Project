@@ -32,8 +32,18 @@ class LetterGuesser:
 
 
 def guess():
-    guessed_letters.append(new_guess.get())
-    pass
+    allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
+    if allowed_guess_input.issuperset(new_guess.get().lower()):
+        if 0 > len(new_guess.get()) > 1:
+            raise InvalidGuess("Please only guess 1 letter!")
+        else:
+            if new_guess.get().lower() not in letters_for_game.guessed_list:
+                letters_for_game.add_guess(new_guess.get().lower())
+                tk.Label(m, text=letters_for_game.guessed_list).grid(row=4, column=1)
+            else:
+                messagebox.showinfo("Sorry!", "This letter has already been guessed, try guessing another letter!")
+    else:
+        raise InvalidGuess("Please only guess letters!")
 
 
 def start_game():
@@ -41,8 +51,6 @@ def start_game():
     This function will contain a list of words that will be randomly selected to be the magic word to guess
     :return:
     """
-    global letters_for_game
-    letters_for_game = LetterGuesser()
 
 
 class InvalidGuess(Exception):
@@ -51,16 +59,19 @@ class InvalidGuess(Exception):
 
 
 if __name__ == '__main__':
+    global letters_for_game
+    letters_for_game = LetterGuesser()
     m = tk.Tk()
     m.title("Hangman")
-    guessed_letters = []
     start_game_button = tk.Button(m, text="Start Game!", command=start_game, width=33)
     start_game_button.grid(row=1, columnspan=2)
-    tk.Label(m, text="Please guess a letter:").grid(row=2)
+    tk.Label(m, text="Please guess a letter:").grid(row=2, columnspan=2)
     new_guess = tk.Entry(m)
-    new_guess.grid(row=2, column=1)
-    tk.Label(m, text="Already guessed letters:").grid(row=3)
-    tk.Label(m, text=guessed_letters).grid(row=3, column=1)
+    new_guess.grid(row=3)
+    guess_button = tk.Button(m, text="Guess", command=guess, width=14)
+    guess_button.grid(row=3, column=1)
+    tk.Label(m, text="Already guessed letters:").grid(row=4)
+    tk.Label(m, text=letters_for_game.guessed_list).grid(row=4, column=1)
     exit_button = tk.Button(m, text="Exit", command=m.destroy, width=16)
-    exit_button.grid(row=4, columnspan=2)
+    exit_button.grid(row=5, columnspan=2)
     m.mainloop()
