@@ -6,8 +6,29 @@ Date last modified: 11/26/19
 
 The purpose of this program is to make a GUI that will allow the user to play the game Hangman.
 """
+import random
 import tkinter as tk
 from tkinter import messagebox
+
+
+class LetterGuesser:
+    def __init__(self):
+        self.magic_number = random.randint(1, 50)
+        self.list_of_words = ["coil", "suspect", "route", "dynamic", "number", "request", "prefer", "certain",
+                              "smell, wilderness",
+                              "pleasant", "yard", "husky", "inject", "slope", "unsuitable", "lunch", "best", "rings",
+                              "guard", "whip",
+                              "shoes", "ready", "tasteful", "cloudy", "tired", "knowledge", "cycle", "unsightly",
+                              "loss", "gaping",
+                              "produce", "line", "important", "angle", "floor", "food", "educated", "threatening",
+                              "acid", "draconian",
+                              "event", "nauseating", "sturdy", "smiling", "scorch", "quaint", "supreme", "start",
+                              "flaky"]
+        self.magic_word = self.list_of_words[self.magic_number]
+        self.guessed_list = []
+
+    def add_guess(self, a_guess):
+        self.guessed_list.append(a_guess)
 
 
 def guess():
@@ -20,12 +41,8 @@ def start_game():
     This function will contain a list of words that will be randomly selected to be the magic word to guess
     :return:
     """
-    list_of_words = ["coil", "suspect", "route", "dynamic", "number", "request", "prefer", "certain", "smell, wilderness",
-                     "pleasant", "yard", "husky", "inject", "slope", "unsuitable", "lunch", "best", "rings", "guard", "whip",
-                     "shoes", "ready", "tasteful", "cloudy", "tired", "knowledge", "cycle", "unsightly", "loss", "gaping",
-                     "produce", "line", "important", "angle", "floor", "food", "educated", "threatening", "acid", "draconian",
-                     "event", "nauseating", "sturdy", "smiling", "scorch", "quaint", "supreme", "start", "flaky"]
-    pass
+    global letters_for_game
+    letters_for_game = LetterGuesser()
 
 
 class InvalidGuess(Exception):
@@ -47,4 +64,3 @@ if __name__ == '__main__':
     exit_button = tk.Button(m, text="Exit", command=m.destroy, width=16)
     exit_button.grid(row=4, columnspan=2)
     m.mainloop()
-
