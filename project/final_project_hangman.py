@@ -11,6 +11,20 @@ from tkinter import messagebox
 
 
 def guess():
+    guessed_letters.append(new_guess.get())
+    pass
+
+
+def start_game():
+    """
+    This function will contain a list of words that will be randomly selected to be the magic word to guess
+    :return:
+    """
+    list_of_words = ["coil", "suspect", "route", "dynamic", "number", "request", "prefer", "certain", "smell, wilderness",
+                     "pleasant", "yard", "husky", "inject", "slope", "unsuitable", "lunch", "best", "rings", "guard", "whip",
+                     "shoes", "ready", "tasteful", "cloudy", "tired", "knowledge", "cycle", "unsightly", "loss", "gaping",
+                     "produce", "line", "important", "angle", "floor", "food", "educated", "threatening", "acid", "draconian",
+                     "event", "nauseating", "sturdy", "smiling", "scorch", "quaint", "supreme", "start", "flaky"]
     pass
 
 
@@ -20,4 +34,17 @@ class InvalidGuess(Exception):
 
 
 if __name__ == '__main__':
-    pass
+    m = tk.Tk()
+    m.title("Hangman")
+    guessed_letters = []
+    start_game_button = tk.Button(m, text="Start Game!", command=start_game, width=33)
+    start_game_button.grid(row=1, columnspan=2)
+    tk.Label(m, text="Please guess a letter:").grid(row=2)
+    new_guess = tk.Entry(m)
+    new_guess.grid(row=2, column=1)
+    tk.Label(m, text="Already guessed letters:").grid(row=3)
+    tk.Label(m, text=guessed_letters).grid(row=3, column=1)
+    exit_button = tk.Button(m, text="Exit", command=m.destroy, width=16)
+    exit_button.grid(row=4, columnspan=2)
+    m.mainloop()
+
