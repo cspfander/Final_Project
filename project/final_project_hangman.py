@@ -28,24 +28,42 @@ class LetterGuesser:
         self.magic_word = self.list_of_words[self.magic_number]
         self.guessed_list = []
 
-    def add_guess(self, a_guess):
-        self.guessed_list.append(a_guess)
+    def add_guess(self, temp_guess):
+        allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
+        if str(temp_guess).isdigit():
+            raise InvalidGuess
+        else:
+            a_guess = temp_guess.lower()
+            if allowed_guess_input.issuperset(a_guess):
+                self.guessed_list.append(a_guess)
+            else:
+                raise InvalidGuess
+
+    def check_guess(self, a_guess):
+
+        for letter in self.magic_word:
+            if a_guess == letter:
+                pass
+        pass
 
 
 def guess():
-    allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
-    letter_guessed = new_guess.get().lower()
-    if allowed_guess_input.issuperset(new_guess.get().lower()):
-        if len(letter_guessed) < 0 or len(letter_guessed) > 1:
-            raise InvalidGuess("Please only guess 1 letter!")
-        else:
-            if letter_guessed not in letters_for_game.guessed_list:
-                letters_for_game.add_guess(letter_guessed)
-                tk.Label(m, text=letters_for_game.guessed_list).grid(row=4, column=1)
+    try:
+        allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
+        letter_guessed = new_guess.get().lower()
+        if allowed_guess_input.issuperset(letter_guessed):
+            if len(letter_guessed) < 0 or len(letter_guessed) > 1:
+                raise InvalidGuess("Please only guess 1 letter!")
             else:
-                messagebox.showinfo("Sorry!", "This letter has already been guessed, try guessing another letter!")
-    else:
-        raise InvalidGuess("Please only guess letters!")
+                if letter_guessed not in letters_for_game.guessed_list:
+                    letters_for_game.add_guess(letter_guessed)
+                    tk.Label(m, text=letters_for_game.guessed_list).grid(row=4, column=1)
+                else:
+                    messagebox.showinfo("Sorry!", "This letter has already been guessed, try guessing another letter!")
+        else:
+            raise InvalidGuess("Please only guess letters!")
+    except AttributeError:
+        raise InvalidGuess()
 
 
 def start_game():
