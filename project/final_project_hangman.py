@@ -4,7 +4,7 @@ Author: Colten pfander
 Date last modified: 11/26/19
 
 
-The purpose of this program is to make a GUI that will allow the user to play the game Hangman.
+The purpose of this program is to make a GUI that will allow the user to play a more friendly game of Hangman.
 """
 import random
 import tkinter as tk
