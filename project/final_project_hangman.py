@@ -74,6 +74,7 @@ class LetterGuesser:
                             messagebox.showinfo("You Win!", "CONGRATULATIONS, YOU WIN!\nYou have correctly guessed the "
                                                             "word '" + letters_for_game.magic_word +
                                                             "'!\nThe program will now close, thank you for playing.")
+                            print("Thanks for playing!")
                             exit_button.invoke()
                             exit()
                 if matched_letters > 0:
@@ -92,6 +93,7 @@ class LetterGuesser:
                         messagebox.showinfo("You Lose!", "Uh oh! You are out of guesses and have lost!\nThe magic word was '"
                                                          + letters_for_game.magic_word +
                                                          "'\nThe program will now close, thank you for playing.")
+                        print("Thanks for playing!")
                         exit_button.invoke()
 
 
