@@ -13,6 +13,9 @@ from datetime import datetime
 
 
 class LetterGuesser:
+    """
+    Class to hold the primary aspects of the game like guesses and magic words
+    """
     def __init__(self):
         self.magic_number = random.randint(1, 50)
         self.list_of_words = ["coil", "suspect", "route", "dynamic", "number", "request", "prefer", "certain",
@@ -29,6 +32,11 @@ class LetterGuesser:
         self.guessed_list = []
 
     def add_guess(self, temp_guess):
+        """
+        Function to add the guess into the list of guessed letters
+        :param temp_guess:
+        :return:
+        """
         allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
         if str(temp_guess).isdigit():
             raise InvalidGuess
@@ -40,7 +48,11 @@ class LetterGuesser:
                 raise InvalidGuess
 
     def check_guess(self, a_guess):
-
+        """
+        Function that will take the guess and cross check it with the magic word to see if it contains any of that letter
+        :param a_guess:
+        :return:
+        """
         for letter in self.magic_word:
             if a_guess == letter:
                 pass
@@ -48,6 +60,10 @@ class LetterGuesser:
 
 
 def guess():
+    """
+    This is the function that will actually run when the guess button is clicked, calling the add guess and check guess
+    :return:
+    """
     try:
         allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
         letter_guessed = new_guess.get().lower()
@@ -68,7 +84,7 @@ def guess():
 
 def start_game():
     """
-    This function will contain a list of words that will be randomly selected to be the magic word to guess
+    This function will start by creating a new instance of the game and resetting attempts remaining
     :return:
     """
     new_game = LetterGuesser()
