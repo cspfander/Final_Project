@@ -45,6 +45,7 @@ class LetterGuesser:
         """
         allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
         if str(temp_guess).isdigit():
+            messagebox.showinfo("Invalid Guess", "Please guess only letters!")
             raise InvalidGuess
         else:
             a_guess = temp_guess.lower()
@@ -62,6 +63,7 @@ class LetterGuesser:
         matched_letters = 0
         allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
         if str(temp_guess).isdigit():
+            messagebox.showinfo("Invalid Guess", "Please guess only letters!")
             raise InvalidGuess
         else:
             a_guess = temp_guess.lower()
@@ -88,7 +90,6 @@ class LetterGuesser:
                     tk.Label(m, text=letters_for_game.guessed_list).grid(row=5, column=1)
                     tk.Label(m, text=letters_for_game.blanks_list).grid(row=2, column=1)
                     tk.Label(m, text=str(letters_for_game.num_of_guesses)).grid(row=6, column=1)
-
                     if self.num_of_guesses == 0:
                         messagebox.showinfo("You Lose!", "Uh oh! You are out of guesses and have lost!\nThe magic word was '"
                                                          + letters_for_game.magic_word +
@@ -106,6 +107,7 @@ def guess():
     letter_guessed = new_guess.get().lower()
     if allowed_guess_input.issuperset(letter_guessed):
         if len(letter_guessed) < 0 or len(letter_guessed) > 1:
+            messagebox.showinfo("Invalid Guess", "Please guess only 1 letter at a time!")
             raise InvalidGuess("Please only guess 1 letter!")
         else:
             if letter_guessed not in letters_for_game.guessed_list:
@@ -114,6 +116,7 @@ def guess():
             else:
                 messagebox.showinfo("Sorry!", "This letter has already been guessed, try guessing another letter!")
     else:
+        messagebox.showinfo("Invalid Guess", "Please guess only letters!")
         raise InvalidGuess("Please only guess letters!")
 
 
