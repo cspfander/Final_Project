@@ -73,7 +73,7 @@ def guess():
             else:
                 if letter_guessed not in letters_for_game.guessed_list:
                     letters_for_game.add_guess(letter_guessed)
-                    tk.Label(m, text=letters_for_game.guessed_list).grid(row=4, column=1)
+                    tk.Label(m, text=letters_for_game.guessed_list).grid(row=5, column=1)
                 else:
                     messagebox.showinfo("Sorry!", "This letter has already been guessed, try guessing another letter!")
         else:
@@ -113,11 +113,12 @@ if __name__ == '__main__':
         guess_button.grid(row=4, column=1)
         tk.Label(m, text="Already guessed letters:").grid(row=5)
         tk.Label(m, text=letters_for_game.guessed_list).grid(row=5, column=1)
+        tk.Label(m, text="Guesses remaining: ").grid(row=6)
         exit_button = tk.Button(m, text="Exit", command=m.destroy, width=16)
-        exit_button.grid(row=6, columnspan=2)
+        exit_button.grid(row=7, columnspan=2)
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
-        tk.Label(m, text="Start Time: " + current_time).grid(row=7, column=1)
+        tk.Label(m, text="Start Time: " + current_time).grid(row=8, column=1)
         m.mainloop()
     except ValueError:
         print("The program has been closed due to a ValueError!")
