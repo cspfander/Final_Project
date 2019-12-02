@@ -132,7 +132,7 @@ class InvalidGuess(Exception):
 
 if __name__ == '__main__':
     try:
-        global letters_for_game, num_of_guesses
+        global num_of_guesses
         letters_for_game = LetterGuesser()
         m = tk.Tk()
         m.title("Hangman")
