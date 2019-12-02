@@ -17,17 +17,19 @@ class LetterGuesser:
     Class to hold the primary aspects of the game like guesses and magic words
     """
     def __init__(self):
-        self.magic_number = random.randint(0, 49)
+        self.magic_number = random.randint(0, 100)
         self.list_of_words = ["coil", "suspect", "route", "dynamic", "number", "request", "prefer", "certain",
-                              "smell, wilderness",
-                              "pleasant", "yard", "husky", "inject", "slope", "unsuitable", "lunch", "best", "rings",
-                              "guard", "whip",
-                              "shoes", "ready", "tasteful", "cloudy", "tired", "knowledge", "cycle", "unsightly",
-                              "loss", "gaping",
-                              "produce", "line", "important", "angle", "floor", "food", "educated", "threatening",
-                              "acid", "draconian",
+                              "smell, wilderness", "pleasant", "yard", "husky", "inject", "slope", "unsuitable",
+                              "lunch", "best", "rings", "guard", "whip", "shoes", "ready", "tasteful", "cloudy",
+                              "tired", "knowledge", "cycle", "unsightly", "lose", "gaping", "produce", "line",
+                              "important", "angle", "floor", "food", "educated", "threatening", "acid", "draconian",
                               "event", "nauseating", "sturdy", "smiling", "scorch", "quaint", "supreme", "start",
-                              "flaky"]
+                              "flaky", "appreciate", "thundering", "plate", "minor", "offer", "loaf", "fork", "absurd",
+                              "soap", "grade", "stereotype", "trouble", "oil", "fuzzy", "example", "steam", "bow",
+                              "fire", "manage", "tickle", "bath", "illegal", "bad", "players", "toxic", "silly", "mean",
+                              "ban", "hostile", "spotted", "hostage", "fuse", "mortar", "border", "rush", "ash", "lit",
+                              "preparation", "sledge", "tango", "intentionally", "feeding", "reported", "mouse", "pad",
+                              "keyboard", "computer", "shields", "cheese", "slow", "friendship", "tactical", "ilk"]
         self.magic_word = self.list_of_words[self.magic_number]
         self.guessed_list = []
         self.num_of_guesses = 6
@@ -70,8 +72,8 @@ class LetterGuesser:
                         matched_letters += 1
                         if letters_for_game.blanks_list == letters_for_game.listed_magic_word:
                             messagebox.showinfo("You Win!", "CONGRATULATIONS, YOU WIN!\nYou have correctly guessed the "
-                                                            "word: " + letters_for_game.magic_word +
-                                                            "!\nThe program will now close, thank you for playing.")
+                                                            "word '" + letters_for_game.magic_word +
+                                                            "'!\nThe program will now close, thank you for playing.")
                             exit_button.invoke()
                             exit()
                 if matched_letters > 0:
@@ -87,9 +89,9 @@ class LetterGuesser:
                     tk.Label(m, text=str(letters_for_game.num_of_guesses)).grid(row=6, column=1)
 
                     if self.num_of_guesses == 0:
-                        messagebox.showinfo("You Lose!", "Uh oh! You are out of guesses and have lost!\nThe magic word was"
+                        messagebox.showinfo("You Lose!", "Uh oh! You are out of guesses and have lost!\nThe magic word was '"
                                                          + letters_for_game.magic_word +
-                                                         "\nThe program will now close, thank you for playing.")
+                                                         "'\nThe program will now close, thank you for playing.")
                         exit_button.invoke()
 
 
@@ -134,7 +136,8 @@ if __name__ == '__main__':
         m.title("Hangman")
         length_of_magic_word = len(letters_for_game.magic_word)
         tk.Label(m, text="The magic word is " + str(length_of_magic_word) + " letters long!").grid(row=1, columnspan=2)
-        tk.Label(m, text="Magic Word:").grid(row=2)
+        tk.Label(m, text="Letters found:").grid(row=2)
+        tk.Label(m, text=letters_for_game.blanks_list).grid(row=2, column=1)
         tk.Label(m, text="Please guess a letter:").grid(row=3, columnspan=2)
         new_guess = tk.Entry(m)
         new_guess.grid(row=4)
