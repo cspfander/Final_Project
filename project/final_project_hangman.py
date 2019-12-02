@@ -155,7 +155,7 @@ if __name__ == '__main__':
         exit_button = tk.Button(m, text="Exit", command=m.destroy, width=16)
         exit_button.grid(row=7, columnspan=2)
         now = datetime.now()
-        current_time = now.strftime("%H:%M:%S")
+        current_time = now.strftime('%I:%M %m/%d/%Y')
         tk.Label(m, text="Start Time: " + current_time).grid(row=8, column=1)
         m.mainloop()
     except ValueError:
