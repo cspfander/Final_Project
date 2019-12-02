@@ -30,8 +30,10 @@ class LetterGuesser:
                               "flaky"]
         self.magic_word = self.list_of_words[self.magic_number]
         self.guessed_list = []
-        self.guessed_correctly = []
         self.num_of_guesses = 6
+        self.listed_magic_word = list(self.magic_word)
+        self.blanks = "_" * len(self.listed_magic_word)
+        self.blanks_list = list(self.blanks)
 
     def add_guess(self, temp_guess):
         """
@@ -62,24 +64,32 @@ class LetterGuesser:
         else:
             a_guess = temp_guess.lower()
             if allowed_guess_input.issuperset(a_guess):
-                for letter in self.magic_word:
-                    if a_guess == letter:
-                        self.guessed_correctly.append(a_guess)
+                for x in range(0, len(letters_for_game.listed_magic_word)):
+                    if a_guess == letters_for_game.listed_magic_word[x]:
+                        letters_for_game.blanks_list[x] = a_guess
                         matched_letters += 1
+                        if letters_for_game.blanks_list == letters_for_game.listed_magic_word:
+                            messagebox.showinfo("You Win!", "CONGRATULATIONS, YOU WIN!\nYou have correctly guessed the "
+                                                            "word: " + letters_for_game.magic_word +
+                                                            "!\nThe program will now close, thank you for playing.")
+                            exit_button.invoke()
+                            exit()
                 if matched_letters > 0:
                     messagebox.showinfo("Correct!", "Yes! There is " + str(matched_letters) + " " + a_guess)
                     tk.Label(m, text=letters_for_game.guessed_list).grid(row=5, column=1)
-                    tk.Label(m, text=letters_for_game.guessed_correctly).grid(row=2, column=1)
+                    tk.Label(m, text=letters_for_game.blanks_list).grid(row=2, column=1)
                     tk.Label(m, text=str(letters_for_game.num_of_guesses)).grid(row=6, column=1)
                 else:
                     messagebox.showinfo("Sorry!", "Unfortunately there are no '" + a_guess + "' in the word.")
                     self.num_of_guesses -= 1
                     tk.Label(m, text=letters_for_game.guessed_list).grid(row=5, column=1)
-                    tk.Label(m, text=letters_for_game.guessed_correctly).grid(row=2, column=1)
+                    tk.Label(m, text=letters_for_game.blanks_list).grid(row=2, column=1)
                     tk.Label(m, text=str(letters_for_game.num_of_guesses)).grid(row=6, column=1)
 
                     if self.num_of_guesses == 0:
-                        messagebox.showinfo("You Lose!", "Uh oh! You are out of guesses and have lost!")
+                        messagebox.showinfo("You Lose!", "Uh oh! You are out of guesses and have lost!\nThe magic word was"
+                                                         + letters_for_game.magic_word +
+                                                         "\nThe program will now close, thank you for playing.")
                         exit_button.invoke()
 
 
@@ -124,7 +134,7 @@ if __name__ == '__main__':
         m.title("Hangman")
         length_of_magic_word = len(letters_for_game.magic_word)
         tk.Label(m, text="The magic word is " + str(length_of_magic_word) + " letters long!").grid(row=1, columnspan=2)
-        tk.Label(m, text="Current letters found in the magic word:").grid(row=2)
+        tk.Label(m, text="Magic Word:").grid(row=2)
         tk.Label(m, text="Please guess a letter:").grid(row=3, columnspan=2)
         new_guess = tk.Entry(m)
         new_guess.grid(row=4)
