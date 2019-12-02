@@ -16,6 +16,7 @@ class LetterGuesser:
     """
     Class to hold the primary aspects of the game like guesses and magic words
     """
+
     def __init__(self):
         self.magic_number = random.randint(0, 100)
         self.list_of_words = ["coil", "suspect", "route", "dynamic", "number", "request", "prefer", "certain",
@@ -45,7 +46,7 @@ class LetterGuesser:
         """
         allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
         if str(temp_guess).isdigit():
-            messagebox.showinfo("Invalid Guess", "Please guess only letters!")
+            messagebox.showinfo("Invalid Guess", "Please only guess letters!")
             raise InvalidGuess
         else:
             a_guess = temp_guess.lower()
@@ -75,7 +76,7 @@ class LetterGuesser:
                         if letters_for_game.blanks_list == letters_for_game.listed_magic_word:
                             messagebox.showinfo("You Win!", "CONGRATULATIONS, YOU WIN!\nYou have correctly guessed the "
                                                             "word '" + letters_for_game.magic_word +
-                                                            "'!\nThe program will now close, thank you for playing.")
+                                                "'!\nThe program will now close, thank you for playing.")
                             print("Thanks for playing!")
                             exit_button.invoke()
                             exit()
@@ -91,9 +92,10 @@ class LetterGuesser:
                     tk.Label(m, text=letters_for_game.blanks_list).grid(row=2, column=1)
                     tk.Label(m, text=str(letters_for_game.num_of_guesses)).grid(row=6, column=1)
                     if self.num_of_guesses == 0:
-                        messagebox.showinfo("You Lose!", "Uh oh! You are out of guesses and have lost!\nThe magic word was '"
-                                                         + letters_for_game.magic_word +
-                                                         "'\nThe program will now close, thank you for playing.")
+                        messagebox.showinfo("You Lose!",
+                                            "Uh oh! You are out of guesses and have lost!\nThe magic word was '"
+                                            + letters_for_game.magic_word +
+                                            "'\nThe program will now close, thank you for playing.")
                         print("Thanks for playing!")
                         exit_button.invoke()
 
@@ -106,8 +108,8 @@ def guess():
     allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
     letter_guessed = new_guess.get().lower()
     if allowed_guess_input.issuperset(letter_guessed):
-        if len(letter_guessed) < 0 or len(letter_guessed) > 1:
-            messagebox.showinfo("Invalid Guess", "Please guess only 1 letter at a time!")
+        if len(letter_guessed) <= 0 or len(letter_guessed) > 1:
+            messagebox.showinfo("Invalid Guess", "Please guess 1 letter at a time!")
             raise InvalidGuess("Please only guess 1 letter!")
         else:
             if letter_guessed not in letters_for_game.guessed_list:
@@ -118,6 +120,7 @@ def guess():
     else:
         messagebox.showinfo("Invalid Guess", "Please guess only letters!")
         raise InvalidGuess("Please only guess letters!")
+    new_guess.delete(0, 1)
 
 
 def start_game():
@@ -148,6 +151,7 @@ if __name__ == '__main__':
         new_guess.grid(row=4)
         guess_button = tk.Button(m, text="Guess", command=guess, width=14)
         guess_button.grid(row=4, column=1)
+        m.bind('<Return>', lambda event=None: guess_button.invoke())
         tk.Label(m, text="Already guessed letters:").grid(row=5)
         tk.Label(m, text=letters_for_game.guessed_list).grid(row=5, column=1)
         tk.Label(m, text="Guesses remaining: ").grid(row=6)
