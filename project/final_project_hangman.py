@@ -17,7 +17,7 @@ class LetterGuesser:
     Class to hold the primary aspects of the game like guesses and magic words
     """
     def __init__(self):
-        self.magic_number = random.randint(1, 50)
+        self.magic_number = random.randint(0, 49)
         self.list_of_words = ["coil", "suspect", "route", "dynamic", "number", "request", "prefer", "certain",
                               "smell, wilderness",
                               "pleasant", "yard", "husky", "inject", "slope", "unsuitable", "lunch", "best", "rings",
@@ -30,11 +30,13 @@ class LetterGuesser:
                               "flaky"]
         self.magic_word = self.list_of_words[self.magic_number]
         self.guessed_list = []
+        self.guessed_correctly = []
+        self.num_of_guesses = 6
 
     def add_guess(self, temp_guess):
         """
         Function to add the guess into the list of guessed letters
-        :param temp_guess:
+        :param temp_guess: Accepts the guess as input
         :return:
         """
         allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
@@ -47,16 +49,38 @@ class LetterGuesser:
             else:
                 raise InvalidGuess
 
-    def check_guess(self, a_guess):
+    def check_guess(self, temp_guess):
         """
         Function that will take the guess and cross check it with the magic word to see if it contains any of that letter
-        :param a_guess:
+        :param temp_guess: Accepts the guess as input
         :return:
         """
-        for letter in self.magic_word:
-            if a_guess == letter:
-                pass
-        pass
+        matched_letters = 0
+        allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
+        if str(temp_guess).isdigit():
+            raise InvalidGuess
+        else:
+            a_guess = temp_guess.lower()
+            if allowed_guess_input.issuperset(a_guess):
+                for letter in self.magic_word:
+                    if a_guess == letter:
+                        self.guessed_correctly.append(a_guess)
+                        matched_letters += 1
+                if matched_letters > 0:
+                    messagebox.showinfo("Correct!", "Yes! There is " + str(matched_letters) + " " + a_guess)
+                    tk.Label(m, text=letters_for_game.guessed_list).grid(row=5, column=1)
+                    tk.Label(m, text=letters_for_game.guessed_correctly).grid(row=2, column=1)
+                    tk.Label(m, text=str(letters_for_game.num_of_guesses)).grid(row=6, column=1)
+                else:
+                    messagebox.showinfo("Sorry!", "Unfortunately there are no '" + a_guess + "' in the word.")
+                    self.num_of_guesses -= 1
+                    tk.Label(m, text=letters_for_game.guessed_list).grid(row=5, column=1)
+                    tk.Label(m, text=letters_for_game.guessed_correctly).grid(row=2, column=1)
+                    tk.Label(m, text=str(letters_for_game.num_of_guesses)).grid(row=6, column=1)
+
+                    if self.num_of_guesses == 0:
+                        messagebox.showinfo("You Lose!", "Uh oh! You are out of guesses and have lost!")
+                        exit_button.invoke()
 
 
 def guess():
@@ -64,22 +88,19 @@ def guess():
     This is the function that will actually run when the guess button is clicked, calling the add guess and check guess
     :return:
     """
-    try:
-        allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
-        letter_guessed = new_guess.get().lower()
-        if allowed_guess_input.issuperset(letter_guessed):
-            if len(letter_guessed) < 0 or len(letter_guessed) > 1:
-                raise InvalidGuess("Please only guess 1 letter!")
-            else:
-                if letter_guessed not in letters_for_game.guessed_list:
-                    letters_for_game.add_guess(letter_guessed)
-                    tk.Label(m, text=letters_for_game.guessed_list).grid(row=5, column=1)
-                else:
-                    messagebox.showinfo("Sorry!", "This letter has already been guessed, try guessing another letter!")
+    allowed_guess_input = set("abcdefghijklmnopqrstuvwxyz")
+    letter_guessed = new_guess.get().lower()
+    if allowed_guess_input.issuperset(letter_guessed):
+        if len(letter_guessed) < 0 or len(letter_guessed) > 1:
+            raise InvalidGuess("Please only guess 1 letter!")
         else:
-            raise InvalidGuess("Please only guess letters!")
-    except AttributeError:
-        raise InvalidGuess()
+            if letter_guessed not in letters_for_game.guessed_list:
+                letters_for_game.add_guess(letter_guessed)
+                letters_for_game.check_guess(letter_guessed)
+            else:
+                messagebox.showinfo("Sorry!", "This letter has already been guessed, try guessing another letter!")
+    else:
+        raise InvalidGuess("Please only guess letters!")
 
 
 def start_game():
@@ -87,10 +108,7 @@ def start_game():
     This function will start by creating a new instance of the game and resetting attempts remaining
     :return:
     """
-    new_game = LetterGuesser()
-    length_of_magic_word = len(new_game.magic_word)
-    tk.Label(m, text="The word is " + str(length_of_magic_word) + " letters long!").grid(row=2)
-    print(new_game.magic_word)
+    pass
 
 
 class InvalidGuess(Exception):
@@ -100,12 +118,13 @@ class InvalidGuess(Exception):
 
 if __name__ == '__main__':
     try:
-        global letters_for_game
+        global letters_for_game, num_of_guesses
         letters_for_game = LetterGuesser()
         m = tk.Tk()
         m.title("Hangman")
-        start_game_button = tk.Button(m, text="Start Game!", command=start_game, width=33)
-        start_game_button.grid(row=1, columnspan=2)
+        length_of_magic_word = len(letters_for_game.magic_word)
+        tk.Label(m, text="The magic word is " + str(length_of_magic_word) + " letters long!").grid(row=1, columnspan=2)
+        tk.Label(m, text="Current letters found in the magic word:").grid(row=2)
         tk.Label(m, text="Please guess a letter:").grid(row=3, columnspan=2)
         new_guess = tk.Entry(m)
         new_guess.grid(row=4)
@@ -114,6 +133,7 @@ if __name__ == '__main__':
         tk.Label(m, text="Already guessed letters:").grid(row=5)
         tk.Label(m, text=letters_for_game.guessed_list).grid(row=5, column=1)
         tk.Label(m, text="Guesses remaining: ").grid(row=6)
+        tk.Label(m, text=str(letters_for_game.num_of_guesses)).grid(row=6, column=1)
         exit_button = tk.Button(m, text="Exit", command=m.destroy, width=16)
         exit_button.grid(row=7, columnspan=2)
         now = datetime.now()
