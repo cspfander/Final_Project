@@ -123,14 +123,6 @@ def guess():
     new_guess.delete(0, 1)
 
 
-def start_game():
-    """
-    This function will start by creating a new instance of the game and resetting attempts remaining
-    :return:
-    """
-    pass
-
-
 class InvalidGuess(Exception):
     # This custom exception gets raised if the user's guess does not meet the accepted conditions
     pass
